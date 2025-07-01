@@ -24,21 +24,14 @@
 ## 📦 Installation / 安装
 
 1. 在 Home Assistant 中打开 **Supervisor → Add‑on 商店 → 右上角 ⋮ → 存储库**  
-2. 添加仓库地址：  
-```
-
-[https://github.com/3234374354/ha-addon-zt-private-planet](https://github.com/3234374354/ha-addon-zt-private-planet)
-
-```
+2. 添加仓库地址：[https://github.com/3234374354/ha-addon-zt-private-planet](https://github.com/3234374354/ha-addon-zt-private-planet)
 3. 刷新后点击 **“Zerotier One Custom Planet”** → **安装**  
 4. 在 **Configuration** 中填写：  
 - `networks`: 要加入的 ZeroTier 网络 ID 列表  
 - `api_auth_token`: 从容器内 `/data/zerotier-one/authtoken.secret` 复制的 token  
 5. 启动 Add‑on 并检查日志：  
 ```
-
-\[INFO] Using host-shared planet: /share/zerotier-planet/planet
-
+[INFO] Using host-shared planet: /share/zerotier-planet/planet
 ````
 
 ---
@@ -104,6 +97,7 @@
 ## 🙏 Thanks / 感谢
 
 > Based on **TomCzHen’s “Hass.io Add‑ons: ZeroTier One”** — thank you for the original work!
+
 > 感谢 **TomCzHen** 的原始项目 “Hass.io Add‑ons: ZeroTier One”——致敬并感谢！
 
 ---
