@@ -13,11 +13,6 @@
   - 优先使用挂载目录中的 Planet，不改镜像即可灵活切换  
 - Multi‑arch 镜像  
   - 支持 `amd64` 和 `arm64`，适配大多数 Home Assistant 硬件  
-- 原生 Home Assistant Add‑on  
-  - 完全兼容 Supervisor → Add‑on 商店安装、更新、日志管理  
-- 开箱即用  
-  - 内置 `run.sh` 自动完成初始化、挂载、网络加入  
-  - 只需填写 `networks` ID 和 `api_auth_token`
 
 ---
 
@@ -28,7 +23,6 @@
 3. 刷新后点击 **“Zerotier One Custom Planet”** → **安装**  
 4. 在 **Configuration** 中填写：  
 - `networks`: 要加入的 ZeroTier 网络 ID 列表  
-- `api_auth_token`: 从容器内 `/data/zerotier-one/authtoken.secret` 复制的 token  
 5. 启动 Add‑on 并检查日志：  
 ```
 [INFO] Using host-shared planet: /share/zerotier-planet/planet
@@ -89,8 +83,6 @@
 4. **HA 安装**
 
    * 添加自定义仓库 URL → 安装 → 填写配置 → 启动
-
-详细步骤请参阅本项目 Wiki 或仓库根目录的 `docs/` 文件夹。
 
 ---
 
