@@ -1,52 +1,110 @@
-# TomCzHen's Hass.io Add-ons: ZeroTier One
+# ZeroTier One Custom Planet Add‑on
 
-First, let me sorry for my poor english.
+> A Home Assistant add‑on for ZeroTier One with **custom Planet** support.  
+> 适用于 Home Assistant 的支持**自定义 Planet**的 ZeroTier One 加载项。
 
-## How To Use
+---
 
-### `network_id`
+## 🎯 Features / 特性
 
-All ZeroTier networks have a unique ID. Devices use a Network's ID to join the network.
+- **Custom Planet**  
+  - 自动加载用户提供的 Planet 二进制，实现私有根服务器托管  
+  - 支持宿主机 `/share/zerotier-planet/planet` 热更新  
+  - 优先使用挂载目录中的 Planet，不改镜像即可灵活切换  
+- Multi‑arch 镜像  
+  - 支持 `amd64` 和 `arm64`，适配大多数 Home Assistant 硬件  
+- 原生 Home Assistant Add‑on  
+  - 完全兼容 Supervisor → Add‑on 商店安装、更新、日志管理  
+- 开箱即用  
+  - 内置 `run.sh` 自动完成初始化、挂载、网络加入  
+  - 只需填写 `networks` ID 和 `api_auth_token`
 
-### `port` & `auth_token`
+---
 
-**`auth_token` IS NOT `Zerotier Central API Access Tokens`**
+## 📦 Installation / 安装
 
-> ### ZeroTier Manual 
-> #### 4.1. JSON API 
-> Macintosh and Windows versions of ZeroTier One come with a graphical UI that runs as a tray / task bar app, and all three versions include a command line interface called zerotier-cli. These interfaces control the service using a local JSON API available via http on ZeroTier's primary port (9993 by default) and authenticated using a token stored as `authtoken.secret` in the service's working directory.
->
-> The API may be accessed directly via HTTP GET and POST requests that include the X-ZT1-Auth header whose value must be the contents of `authtoken.secret`. 
-
-The startup script use `auth_token` generate `authtoken.secret` file in zerotier working dircetory. 
-
-## Monitor Zerotier Network
-
-You can use [RESTful Sensor](https://www.home-assistant.io/components/sensor.rest/) monitor zerotier network status.
-
-example:
-
-```
-  - platform: rest
-    name: ZeroTier One Status
-    json_attributes:
-      - address
-      - version
-    resource: http://127.0.0.1:9993/status
-    value_template: '{{ value_json.online }}'
-    method: GET
-    headers:
-      X-ZT1-Auth: auth_token
-  - platform: rest
-    name: ZeroTier One Network
-    json_attributes:
-      - id
-      - type
-    resource: http://127.0.0.1:9993/network/network_id
-    value_template: '{{ value_json.status }}'
-    method: GET
-    headers:
-      X-ZT1-Auth: auth_token
+1. 在 Home Assistant 中打开 **Supervisor → Add‑on 商店 → 右上角 ⋮ → 存储库**  
+2. 添加仓库地址：  
 ```
 
-More Zerotier local api please vist [https://www.zerotier.com/manual.shtml#4.1](https://www.zerotier.com/manual.shtml#4.1)
+[https://github.com/3234374354/ha-addon-zt-private-planet](https://github.com/3234374354/ha-addon-zt-private-planet)
+
+```
+3. 刷新后点击 **“Zerotier One Custom Planet”** → **安装**  
+4. 在 **Configuration** 中填写：  
+- `networks`: 要加入的 ZeroTier 网络 ID 列表  
+- `api_auth_token`: 从容器内 `/data/zerotier-one/authtoken.secret` 复制的 token  
+5. 启动 Add‑on 并检查日志：  
+```
+
+\[INFO] Using host-shared planet: /share/zerotier-planet/planet
+
+````
+
+---
+
+## ⚙️ Configuration / 配置
+
+```jsonc
+{
+"networks": ["<your_network_id1>", "<your_network_id2>"],
+"api_auth_token": "<your_authtoken.secret内容>"
+}
+````
+
+* **networks**: ZeroTier 网络 ID 数组
+* **api\_auth\_token**: 用于访问本地 JSON API 的令牌
+
+更多配置项可参考 [官方文档](https://www.zerotier.com/manual.shtml#4.1)。
+
+---
+
+## 🌐 Custom Planet 支持说明
+
+1. **宿主机放置**
+
+   * 在宿主机目录 `/usr/share/hassio/homeassistant/share/zerotier-planet/` 下放入你的 `planet` 二进制文件
+2. **容器挂载**
+
+   * Add‑on 自动将宿主机的 `/share/zerotier-planet/planet` 映射到容器内
+3. **启动逻辑**
+
+   * 脚本检测到该文件后，会覆盖到 `/data/zerotier-one/planet`，优先使用自定义根服务器
+4. **热更新**
+
+   * 更新宿主机的 `planet` 文件后，重启 Add‑on 即可生效，无需重建镜像
+
+---
+
+## 📚 Quick Tutorial / 快速教程
+
+1. **Fork & Clone**
+
+   * Fork 仓库 → Codespaces 在线编辑 → 添加 `planet/planet` 文件
+2. **Devcontainer 验证**
+
+   * 在 Codespaces 终端运行：
+
+     ```bash
+     docker build --build-arg BUILD_ARCH=amd64 -t zt-custom:dev .
+     docker run --rm -it zt-custom:dev bash
+     zerotier-one -v
+     ```
+3. **CI/CD 构建**
+
+   * Push `.github/workflows/build.yml` → 打 Tag → 多架构镜像自动推送到 GHCR
+4. **HA 安装**
+
+   * 添加自定义仓库 URL → 安装 → 填写配置 → 启动
+
+详细步骤请参阅本项目 Wiki 或仓库根目录的 `docs/` 文件夹。
+
+---
+
+## 🙏 Thanks / 感谢
+
+> Based on **TomCzHen’s “Hass.io Add‑ons: ZeroTier One”** — thank you for the original work!
+> 感谢 **TomCzHen** 的原始项目 “Hass.io Add‑ons: ZeroTier One”——致敬并感谢！
+
+---
+
