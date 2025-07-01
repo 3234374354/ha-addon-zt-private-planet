@@ -2,7 +2,7 @@
     "name": "ZeroTier One",
     "version": "1.1.0",
     "slug": "zerotier-one",
-    "url": "https://github.com/TomCzHen/hassio-addon-zerotier-one/blob/v1.1.0/README.md",
+    "url": "https://github.com/3234374354/ha-addon-zt-private-planet",
     "description": "ZeroTier One For Hass.io Add-ons",
     "arch": [
       "armhf",
@@ -22,16 +22,18 @@
       "/dev/net/tun:/dev/net/tun:rwm"
     ],
     "options": {
-      "network_id":"",
+      "networks": [],
+      "api_auth_token": "",
       "port": "9993",
       "auth_token": "",
       "log_level": "info"
     },
     "schema": {
-      "network_id":"match([0-9a-z]{16})",
+      "networks": ["match([0-9a-z]{16})"],
+      "api_auth_token": "str",
       "port": "port",
       "auth_token": "match([0-9A-Za-z]+)",
       "log_level": "match(^(trace|debug|info|notice|warning|error|fatal)$)"
     },
-    "image": "tomczhen/addon-zerotier-one-{arch}"
+    "image": "3234374354/ha-addon-zt-private-planet-{arch}"
   }

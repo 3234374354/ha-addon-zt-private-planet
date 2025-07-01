@@ -29,13 +29,16 @@ LABEL \
     io.hass.arch="${BUILD_ARCH}" \
     io.hass.type="addon" \
     io.hass.version=${BUILD_VERSION} \
-    maintainer="Tom Czhen <tom.czhen@gmail.com>" \
+    maintainer="3234374354 <github.com/3234374354>" \
     org.label-schema.description="ZeroTier One for Hass.io" \
     org.label-schema.build-date=${BUILD_DATE} \
     org.label-schema.name="ZeroTier" \
     org.label-schema.schema-version="1.1.0" \
-    org.label-schema.url="https://github.com/TomCzHen/hassio-addon-zerotier-one" \
-    org.label-schema.usage="https://github.com/TomCzHen/hassio-addon-zerotier-one/blob/master/README.md" \
+    org.label-schema.url="https://github.com/3234374354/ha-addon-zt-private-planet" \
+    org.label-schema.usage="https://github.com/3234374354/ha-addon-zt-private-planet/blob/master/README.md" \
     org.label-schema.vcs-ref=${BUILD_REF} \
-    org.label-schema.vcs-url="https://github.com/TomCzHen/hassio-addon-zerotier-one" \
-    org.label-schema.vendor="TomCzhen Hass.io Addons"
+    org.label-schema.vcs-url="https://github.com/3234374354/ha-addon-zt-private-planet" \
+    org.label-schema.vendor="3234374354 Hass.io Addons"
+
+# 设置 run.sh 为容器启动入口
+ENTRYPOINT ["/run.sh"]
